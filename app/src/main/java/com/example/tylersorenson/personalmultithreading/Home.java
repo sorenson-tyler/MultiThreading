@@ -31,8 +31,8 @@ public class Home extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createClick = new Create(getApplicationContext(), FILE_NAME);
-                createClick.start();
+                createClick = new Create(getApplicationContext(), FILE_NAME, progressBar);
+                createClick.execute(10);
             }
         });
         load.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +43,7 @@ public class Home extends AppCompatActivity {
                 fileData = loadClick.getList();
                 setListView(fileData);
                 content.setAdapter(contentAdapter);
+                contentAdapter.notifyDataSetChanged();
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,7 @@ public class Home extends AppCompatActivity {
 
     public void setUp() {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setMax(10);
         create = (Button) findViewById(R.id.create);
         load = (Button) findViewById(R.id.load);
         clear = (Button) findViewById(R.id.clear);

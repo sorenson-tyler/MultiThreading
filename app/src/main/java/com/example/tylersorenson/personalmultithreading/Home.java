@@ -17,6 +17,7 @@ public class Home extends AppCompatActivity {
     ProgressBar progressBar;
     Button create, load, clear;
     List<String> fileData = null;
+    ArrayAdapter<String> contentAdapter;
     ListView content;
     Create createClick;
     Load loadClick;
@@ -41,12 +42,13 @@ public class Home extends AppCompatActivity {
                 loadClick.start();
                 fileData = loadClick.getList();
                 setListView(fileData);
+                content.setAdapter(contentAdapter);
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                contentAdapter.clear();
             }
         });
     }
@@ -64,7 +66,7 @@ public class Home extends AppCompatActivity {
             Log.e("ERROR", "String List is empty");
         }
         else {
-            ArrayAdapter<String> fileData = new ArrayAdapter<String>(this, R.layout.activity_home, data);
+            contentAdapter = new ArrayAdapter<String>(this, R.layout.activity_home, data);
         }
     }
 }

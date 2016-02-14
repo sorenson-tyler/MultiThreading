@@ -37,6 +37,10 @@ public class Load extends Thread{
         }
     }
 
+    public List<String> getList() {
+        return numbers;
+    }
+
     public void run() {
         readFile();
     }

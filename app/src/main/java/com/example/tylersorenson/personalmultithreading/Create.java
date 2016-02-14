@@ -14,14 +14,15 @@ import java.io.OutputStream;
  */
 public class Create extends Thread{
     Context context;
+    String filename;
 
-    Create(Context context){
+    Create(Context context, String FILE_NAME){
         this.context = context;
+        filename = FILE_NAME;
     }
 
     public void writeFile() {
-        String FILE_NAME = "numbers.txt";
-        File file = new File(context.getFilesDir(), FILE_NAME);
+        File file = new File(context.getFilesDir(), filename);
         OutputStream out;
         try {
             out = new BufferedOutputStream(new FileOutputStream(file));
@@ -29,14 +30,9 @@ public class Create extends Thread{
                 out.write(i);
                 Thread.sleep(250);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void run() {

@@ -10,10 +10,12 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
+    private final String FILE_NAME = "numbers.txt";
     ProgressBar progressBar;
     Button create, load, clear;
     ListView content;
     Create createClick;
+    Load loadClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +26,15 @@ public class Home extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createClick = new Create(getApplicationContext());
+                createClick = new Create(getApplicationContext(), FILE_NAME);
                 createClick.start();
             }
         });
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadClick = new Load(getApplicationContext(), FILE_NAME);
+                loadClick.start();
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {

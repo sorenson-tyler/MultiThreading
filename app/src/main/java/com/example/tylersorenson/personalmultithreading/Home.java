@@ -11,12 +11,13 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Home extends AppCompatActivity {
     private final String FILE_NAME = "numbers.txt";
     ProgressBar progressBar;
     Button create, load, clear;
-    List<String> fileData = null;
+    List <String> data;
     ArrayAdapter<String> contentAdapter;
     ListView content;
     Create createClick;
@@ -38,12 +39,15 @@ public class Home extends AppCompatActivity {
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadClick = new Load(getApplicationContext(), FILE_NAME);
-                loadClick.start();
-                fileData = loadClick.getList();
-                setListView(fileData);
-                content.setAdapter(contentAdapter);
-                contentAdapter.notifyDataSetChanged();
+                loadClick = new Load(getApplicationContext(), FILE_NAME, progressBar, content);
+                try {
+                    data = loadClick.execute().get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                setAdapter(data);
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +67,9 @@ public class Home extends AppCompatActivity {
         content = (ListView) findViewById(R.id.listView);
     }
 
-    public void setListView(List<String> data) {
-        if (fileData == null) {
-            Log.e("ERROR", "String List is empty");
-        }
-        else {
-            contentAdapter = new ArrayAdapter<String>(this, R.layout.activity_home, data);
-        }
+    public void setAdapter(List <String> data) {
+        contentAdapter = new ArrayAdapter<String>(this, R.layout.list_display, data);
+        content.setAdapter(contentAdapter);
+        contentAdapter.notifyDataSetChanged();
     }
 }

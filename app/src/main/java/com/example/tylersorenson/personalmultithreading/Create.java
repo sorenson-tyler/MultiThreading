@@ -6,11 +6,13 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * Created by Tyler Sorenson on 2/14/2016.
@@ -19,7 +21,6 @@ public class Create extends AsyncTask<Integer, Integer, Void>{
     Context context;
     String filename;
     ProgressBar progressBar;
-    int numbers = 10;
 
     Create(Context context, String FILE_NAME, ProgressBar progressBar){
         this.context = context;
@@ -28,12 +29,11 @@ public class Create extends AsyncTask<Integer, Integer, Void>{
     }
 
     public void writeFile(Integer numbers) {
-        File file = new File(context.getFilesDir(), filename);
-        OutputStream out;
         try {
-            out = new BufferedOutputStream(new FileOutputStream(file));
-            for (int i = 0;i <= numbers;i++) {
-                out.write(i);
+            FileOutputStream fileOut = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            for (int i = 1;i <= numbers;i++) {
+                fileOut.write(Integer.toString(i).getBytes());
+                fileOut.write("\n".getBytes());
                 publishProgress(i);
                 Thread.sleep(250);
             }
